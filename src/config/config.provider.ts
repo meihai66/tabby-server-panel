@@ -2,10 +2,6 @@ import { Injectable } from '@angular/core'
 import { ConfigProvider } from 'tabby-core'
 import { QuickCommandTab } from '../models/quick-command.model'
 
-// ConfigProvider is the base class provided by tabby-core
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-const ConfigProviderBase: any = ConfigProvider
-
 export interface ServerPanelConfig {
     statsRefreshInterval: number
     defaultUploadPath: string
@@ -16,8 +12,8 @@ export interface ServerPanelConfig {
     }
 }
 
-@Injectable({ providedIn: 'root' })
-export class ServerPanelConfigProvider extends ConfigProviderBase {
+@Injectable()
+export class ServerPanelConfigProvider extends ConfigProvider {
     defaults = {
         serverPanel: {
             statsRefreshInterval: 5,

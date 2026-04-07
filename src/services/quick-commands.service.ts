@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core'
 import { ConfigService } from 'tabby-core'
 import { QuickCommandTab, QuickCommand } from '../models/quick-command.model'
 
-@Injectable({ providedIn: 'root' })
+@Injectable()
 export class QuickCommandsService {
     constructor (private config: ConfigService) {}
 

@@ -36,4 +36,4 @@ import { ServerPanelConfigProvider } from './config/config.provider'
         ServerPanelComponent,
     ],
 })
-export class TabbyServerPanelModule { }
+export default class TabbyServerPanelModule { }
