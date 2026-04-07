@@ -14,11 +14,28 @@ declare module 'tabby-core' {
 }
 
 declare module 'tabby-terminal' {
-    // intentionally empty – only used as an external in webpack
+    import { Observable } from 'rxjs'
+
+    export abstract class TerminalDecorator {
+        attach (tab: BaseTerminalTabComponent): void
+        detach (tab: BaseTerminalTabComponent): void
+    }
+
+    export class BaseTerminalTabComponent {
+        frontendReady$: Observable<void>
+        element: HTMLElement
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        session: any
+    }
 }
 
 declare module 'tabby-ssh' {
-    // intentionally empty – only used as an external in webpack
+    import { BaseTerminalTabComponent } from 'tabby-terminal'
+
+    export class SSHTabComponent extends BaseTerminalTabComponent {
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        sshSession: any
+    }
 }
 
 declare module '@electron/remote' {

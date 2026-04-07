@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core'
 import { CommonModule } from '@angular/common'
 import { FormsModule } from '@angular/forms'
 import { ConfigProvider } from 'tabby-core'
+import { TerminalDecorator } from 'tabby-terminal'
 
 import { ServerPanelComponent } from './components/server-panel.component'
 import { ServerStatsComponent } from './components/server-stats.component'
@@ -13,6 +14,7 @@ import { QuickCommandsService } from './services/quick-commands.service'
 import { FileManagerService } from './services/file-manager.service'
 import { PanelConfigService } from './services/config.service'
 import { ServerPanelConfigProvider } from './config/config.provider'
+import { ServerPanelDecorator } from './decorators/server-panel.decorator'
 
 @NgModule({
     imports: [
@@ -31,6 +33,7 @@ import { ServerPanelConfigProvider } from './config/config.provider'
         FileManagerService,
         PanelConfigService,
         { provide: ConfigProvider, useClass: ServerPanelConfigProvider, multi: true },
+        { provide: TerminalDecorator, useClass: ServerPanelDecorator, multi: true },
     ],
     exports: [
         ServerPanelComponent,
