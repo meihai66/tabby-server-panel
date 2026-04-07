@@ -202,12 +202,12 @@ TypeScript strict mode is enabled. All code must pass `tsc --noEmit` before comm
 
 `@angular/compiler` **must** remain installed. The `@angular/compiler-cli` ESM bundles (which `@ngtools/webpack` loads during compilation) contain live `import … from "@angular/compiler"` statements that Node.js resolves at webpack run time. Removing the package causes a hard `ERR_MODULE_NOT_FOUND` build failure.
 
-The remaining CVE and why it is not exploitable in this plugin:
+##### True positive (npm audit correctly identifies this)
 
-| GHSA | Title | Affected range | Exploitable here? |
-|------|-------|----------------|-------------------|
-| [GHSA-v4hv-rgfq-gp49](https://github.com/advisories/GHSA-v4hv-rgfq-gp49) | Stored XSS via SVG animation/URL/MathML attributes | `≤ 18.2.14` | ❌ **No** |
-| [GHSA-jrmj-c5cx-3cw6](https://github.com/advisories/GHSA-jrmj-c5cx-3cw6) | XSS via unsanitized SVG script attributes | `≤ 18.2.14` | ❌ **No** |
+| GHSA | Title | Affected range | Installed version matches? |
+|------|-------|----------------|---------------------------|
+| [GHSA-v4hv-rgfq-gp49](https://github.com/advisories/GHSA-v4hv-rgfq-gp49) | Stored XSS via SVG animation/URL/MathML | `≤ 18.2.14` | ✅ Yes — 15.2.10 ≤ 18.2.14 |
+| [GHSA-jrmj-c5cx-3cw6](https://github.com/advisories/GHSA-jrmj-c5cx-3cw6) | XSS via unsanitized SVG script attributes | `≤ 18.2.14` | ✅ Yes — 15.2.10 ≤ 18.2.14 |
 
 Both CVEs describe Angular's sanitizer failing to block malicious attributes when rendering **user-controlled SVG content** into a **browser DOM**. Neither condition applies here:
 
@@ -215,6 +215,18 @@ Both CVEs describe Angular's sanitizer failing to block malicious attributes whe
 2. **At runtime in Tabby** — Tabby provides its own Angular 15 instance. Our plugin's templates contain no SVG elements and no user-controlled bindings that could carry SVG attributes. (`grep -r 'svg\|innerHTML\|bypassSecurity' src/` returns zero hits.)
 
 The npm-suggested fix (`@angular/compiler@21.2.7`) is a semver-major jump. `@angular/compiler-cli` v15 (required by `@ngtools/webpack` v15) cannot load a v21 compiler, and upgrading the entire Angular toolchain to v21 would generate decorator metadata incompatible with Tabby's Angular 15 host runtime.
+
+##### False positives (scanner bug — version 15.2.10 does NOT match these ranges)
+
+Some external scanners report the **same CVEs** again using the version ranges for newer Angular branches:
+
+| Reported range | Is 15.2.10 ≥ lower bound? | Verdict |
+|----------------|--------------------------|---------|
+| `>= 19.0.0-next.0, < 19.2.17` | ❌ No | **False positive** |
+| `>= 20.0.0-next.0, < 20.3.15` | ❌ No | **False positive** |
+| `>= 21.0.0-next.0, < 21.0.2`  | ❌ No | **False positive** |
+
+The GHSA advisory for this CVE has a separate entry per Angular major-version branch (15/16/17/18, 19, 20, 21). Some scanners iterate every entry in the advisory and report it for any installation of the package, without checking whether the installed version satisfies the range predicate. `semver.satisfies('15.2.10', '>=19.0.0-0 <19.2.17')` returns `false`; these reports can be safely dismissed.
 
 ---
 
