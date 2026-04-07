@@ -18,6 +18,7 @@
     "tabby-ssh": "*",
     "tabby-terminal": "*"
   },
+  "// ANGULAR_VERSION_NOTE": "Angular devDependencies are pinned to ^15.2.6 to match Tabby's Angular 15 host runtime. Upgrading to Angular 19+ (the version with CVE patches) would generate decorator metadata incompatible with Tabby's runtime. These packages are build-time only and are excluded from the plugin bundle via webpack externals. See README Security section for CVE applicability analysis.",
   "devDependencies": {
     "@angular/common": "^15.2.6",
     "@angular/compiler": "^15.2.6",

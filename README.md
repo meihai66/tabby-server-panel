@@ -183,7 +183,26 @@ TypeScript strict mode is enabled. All code must pass `tsc --noEmit` before comm
 
 ---
 
-## Requirements
+## Security
+
+### Angular version constraint and known CVEs in devDependencies
+
+The Angular packages (`@angular/common`, `@angular/compiler`, `@angular/core`) are listed as **devDependencies** used exclusively at **build time** — they are entirely excluded from the production bundle (declared as webpack `externals`). The bundle loaded by Tabby at runtime uses Tabby's own Angular 15 instance; none of these packages ship with the plugin.
+
+`npm audit` reports several high-severity CVEs against these Angular 15 devDependencies. The reported CVEs and their applicability:
+
+| GHSA | Title | Applicable to this plugin? |
+|------|-------|---------------------------|
+| [GHSA-58c5-g7wp-6w37](https://github.com/advisories/GHSA-58c5-g7wp-6w37) | XSRF token leakage via protocol-relative URLs | ❌ **No** — plugin does not use Angular `HttpClient` |
+| [GHSA-v4hv-rgfq-gp49](https://github.com/advisories/GHSA-v4hv-rgfq-gp49) | Stored XSS via SVG animation/URL/MathML attributes | ❌ **No** — plugin templates contain no SVG elements |
+| [GHSA-jrmj-c5cx-3cw6](https://github.com/advisories/GHSA-jrmj-c5cx-3cw6) | XSS via unsanitized SVG script attributes | ❌ **No** — plugin templates contain no SVG elements |
+| [GHSA-prjf-86w9-mfqv](https://github.com/advisories/GHSA-prjf-86w9-mfqv) | i18n XSS | ❌ **No** — plugin does not use Angular i18n |
+
+**Why Angular 15 cannot be upgraded:** Tabby's host application is built on Angular 15 and provides it as a shared runtime. A Tabby plugin's Angular JIT decorators are processed by the host's Angular instance. Upgrading the build tools to Angular 21 would generate decorator metadata incompatible with Angular 15's runtime, causing Tabby to fail to load the plugin. The npm-suggested fix (`@angular/common@21.2.7`) is a semver-major breaking change in this context.
+
+---
+
+
 
 - **Tabby** ≥ 1.0.185
 - **Node.js** ≥ 16
