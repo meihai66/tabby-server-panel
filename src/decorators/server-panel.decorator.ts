@@ -4,9 +4,14 @@ import { SSHTabComponent } from 'tabby-ssh'
 import { Subscription } from 'rxjs'
 import { take } from 'rxjs/operators'
 
+interface PanelRecord {
+    sub: Subscription | null
+    wrapper: HTMLElement | null
+}
+
 @Injectable()
 export class ServerPanelDecorator extends TerminalDecorator {
-    private panelMap = new WeakMap<BaseTerminalTabComponent, { sub: Subscription; wrapper: HTMLElement | null }>()
+    private panelMap = new WeakMap<BaseTerminalTabComponent, PanelRecord>()
 
     attach (tab: BaseTerminalTabComponent): void {
         if (!(tab instanceof SSHTabComponent)) {
@@ -15,7 +20,7 @@ export class ServerPanelDecorator extends TerminalDecorator {
 
         // Initialise the record before subscribing so the callback can always
         // find it, even if frontendReady$ emits synchronously.
-        const record: { sub: Subscription; wrapper: HTMLElement | null } = { sub: null as unknown as Subscription, wrapper: null }
+        const record: PanelRecord = { sub: null, wrapper: null }
         this.panelMap.set(tab, record)
 
         record.sub = tab.frontendReady$.pipe(take(1)).subscribe(() => {
