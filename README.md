@@ -185,20 +185,36 @@ TypeScript strict mode is enabled. All code must pass `tsc --noEmit` before comm
 
 ## Security
 
-### Angular version constraint and known CVEs in devDependencies
+### Dependency CVEs — analysis and mitigation
 
-The Angular packages (`@angular/common`, `@angular/compiler`, `@angular/core`) are listed as **devDependencies** used exclusively at **build time** — they are entirely excluded from the production bundle (declared as webpack `externals`). The bundle loaded by Tabby at runtime uses Tabby's own Angular 15 instance; none of these packages ship with the plugin.
+`npm audit` reports CVEs against the `@angular/*` **devDependencies** used by the webpack build. None of these packages are bundled in the production output (all are declared as webpack `externals`; Tabby provides the actual runtime implementations).
 
-`npm audit` reports several high-severity CVEs against these Angular 15 devDependencies. The reported CVEs and their applicability:
+#### What has been done
 
-| GHSA | Title | Applicable to this plugin? |
-|------|-------|---------------------------|
-| [GHSA-58c5-g7wp-6w37](https://github.com/advisories/GHSA-58c5-g7wp-6w37) | XSRF token leakage via protocol-relative URLs | ❌ **No** — plugin does not use Angular `HttpClient` |
-| [GHSA-v4hv-rgfq-gp49](https://github.com/advisories/GHSA-v4hv-rgfq-gp49) | Stored XSS via SVG animation/URL/MathML attributes | ❌ **No** — plugin templates contain no SVG elements |
-| [GHSA-jrmj-c5cx-3cw6](https://github.com/advisories/GHSA-jrmj-c5cx-3cw6) | XSS via unsanitized SVG script attributes | ❌ **No** — plugin templates contain no SVG elements |
-| [GHSA-prjf-86w9-mfqv](https://github.com/advisories/GHSA-prjf-86w9-mfqv) | i18n XSS | ❌ **No** — plugin does not use Angular i18n |
+`@angular/common`, `@angular/core`, `@angular/forms`, and `@angular/platform-browser` have been removed from `devDependencies` entirely. Their TypeScript types are satisfied by minimal stubs in `types/tabby.d.ts`. This eliminates:
 
-**Why Angular 15 cannot be upgraded:** Tabby's host application is built on Angular 15 and provides it as a shared runtime. A Tabby plugin's Angular JIT decorators are processed by the host's Angular instance. Upgrading the build tools to Angular 21 would generate decorator metadata incompatible with Angular 15's runtime, causing Tabby to fail to load the plugin. The npm-suggested fix (`@angular/common@21.2.7`) is a semver-major breaking change in this context.
+| GHSA | Title | Status |
+|------|-------|--------|
+| [GHSA-58c5-g7wp-6w37](https://github.com/advisories/GHSA-58c5-g7wp-6w37) | XSRF token leakage via HttpClient | ✅ Eliminated — `@angular/common` removed |
+| [GHSA-prjf-86w9-mfqv](https://github.com/advisories/GHSA-prjf-86w9-mfqv) | i18n XSS | ✅ Eliminated — `@angular/core` removed |
+
+#### What cannot be eliminated
+
+`@angular/compiler` **must** remain installed. The `@angular/compiler-cli` ESM bundles (which `@ngtools/webpack` loads during compilation) contain live `import … from "@angular/compiler"` statements that Node.js resolves at webpack run time. Removing the package causes a hard `ERR_MODULE_NOT_FOUND` build failure.
+
+The remaining CVE and why it is not exploitable in this plugin:
+
+| GHSA | Title | Affected range | Exploitable here? |
+|------|-------|----------------|-------------------|
+| [GHSA-v4hv-rgfq-gp49](https://github.com/advisories/GHSA-v4hv-rgfq-gp49) | Stored XSS via SVG animation/URL/MathML attributes | `≤ 18.2.14` | ❌ **No** |
+| [GHSA-jrmj-c5cx-3cw6](https://github.com/advisories/GHSA-jrmj-c5cx-3cw6) | XSS via unsanitized SVG script attributes | `≤ 18.2.14` | ❌ **No** |
+
+Both CVEs describe Angular's sanitizer failing to block malicious attributes when rendering **user-controlled SVG content** into a **browser DOM**. Neither condition applies here:
+
+1. **At build time** — `@angular/compiler` processes our static TypeScript templates inside Node.js. There is no browser DOM and no user-controlled input, so SVG-based XSS cannot occur.
+2. **At runtime in Tabby** — Tabby provides its own Angular 15 instance. Our plugin's templates contain no SVG elements and no user-controlled bindings that could carry SVG attributes. (`grep -r 'svg\|innerHTML\|bypassSecurity' src/` returns zero hits.)
+
+The npm-suggested fix (`@angular/compiler@21.2.7`) is a semver-major jump. `@angular/compiler-cli` v15 (required by `@ngtools/webpack` v15) cannot load a v21 compiler, and upgrading the entire Angular toolchain to v21 would generate decorator metadata incompatible with Tabby's Angular 15 host runtime.
 
 ---
 
