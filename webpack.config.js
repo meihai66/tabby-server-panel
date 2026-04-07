@@ -40,5 +40,6 @@ module.exports = {
     '@angular/platform-browser': 'commonjs @angular/platform-browser',
     'rxjs': 'commonjs rxjs',
     'rxjs/operators': 'commonjs rxjs/operators',
+    '@electron/remote': 'commonjs @electron/remote',
   },
 }

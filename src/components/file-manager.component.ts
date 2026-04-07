@@ -196,7 +196,7 @@ export class FileManagerComponent implements OnInit, OnDestroy {
         }
 
         this.subs.push(
-            this.svc.uploadProgress$.subscribe(task => {
+            this.svc.uploadProgress$.subscribe((task: UploadTask) => {
                 const idx = this.activeTasks.findIndex(t => t.id === task.id)
                 if (idx >= 0) {
                     this.activeTasks[idx] = task
@@ -212,7 +212,7 @@ export class FileManagerComponent implements OnInit, OnDestroy {
                 }
                 this.cdr.markForCheck()
             }),
-            this.svc.syncStatus$.subscribe(watcher => {
+            this.svc.syncStatus$.subscribe((watcher: SyncWatcher) => {
                 this.syncWatcherMap.set(watcher.localPath, watcher)
                 this.cdr.markForCheck()
             }),

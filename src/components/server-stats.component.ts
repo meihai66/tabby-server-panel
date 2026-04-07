@@ -137,13 +137,13 @@ export class ServerStatsComponent implements OnInit, OnDestroy {
         const interval = this.configSvc.get().statsRefreshInterval
 
         this.sub = this.svc.stats$.subscribe({
-            next: stats => {
+            next: (stats: ServerStats) => {
                 this.stats = stats
                 this.loading = false
                 this.error = null
                 this.cdr.markForCheck()
             },
-            error: err => {
+            error: (err: unknown) => {
                 this.error = String(err)
                 this.loading = false
                 this.cdr.markForCheck()

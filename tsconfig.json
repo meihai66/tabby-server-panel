@@ -1,9 +1,9 @@
 {
   "compilerOptions": {
-    "target": "ES2017",
+    "target": "ES2022",
     "module": "commonjs",
     "moduleResolution": "node",
-    "lib": ["es2017", "dom"],
+    "lib": ["es2022", "dom"],
     "declaration": true,
     "strict": true,
     "noImplicitAny": true,
@@ -15,14 +15,11 @@
     "sourceMap": true,
     "outDir": "./dist",
     "baseUrl": ".",
-    "paths": {
-      "tabby-core": ["node_modules/tabby-core"],
-      "tabby-terminal": ["node_modules/tabby-terminal"],
-      "tabby-ssh": ["node_modules/tabby-ssh"]
-    }
+    "typeRoots": ["node_modules/@types", "types"]
   },
   "include": [
-    "src/**/*.ts"
+    "src/**/*.ts",
+    "types/**/*.d.ts"
   ],
   "exclude": [
     "node_modules",

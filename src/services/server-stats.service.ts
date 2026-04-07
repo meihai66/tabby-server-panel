@@ -32,8 +32,8 @@ export class ServerStatsService implements OnDestroy {
                 switchMap(() => this.fetchStatsAsync()),
             )
             .subscribe({
-                next: stats => this.statsSubject.next(stats),
-                error: err => console.error('[ServerStatsService] Error fetching stats:', err),
+                next: (stats: ServerStats) => this.statsSubject.next(stats),
+                error: (err: unknown) => console.error('[ServerStatsService] Error fetching stats:', err),
             })
     }
 

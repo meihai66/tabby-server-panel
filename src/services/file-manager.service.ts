@@ -138,7 +138,10 @@ export class FileManagerService implements OnDestroy {
             throw new Error('SFTP session not available')
         }
         const tmpDir = fs.mkdtempSync(path.join(os.tmpdir(), 'tabby-sftp-'))
-        const localPath = path.join(tmpDir, item.name)
+        // Use path.basename to prevent any path-traversal characters in item.name
+        // from escaping the isolated temporary directory.
+        const safeName = path.basename(item.name)
+        const localPath = path.join(tmpDir, safeName)
 
         await this.sftpSession.get(item.path, localPath)
 
