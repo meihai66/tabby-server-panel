@@ -1,0 +1,39 @@
+{
+  "name": "tabby-server-panel",
+  "version": "1.0.0",
+  "description": "A Tabby Terminal plugin providing a three-layer bottom panel for SSH sessions: server stats, quick commands, and file manager",
+  "main": "dist/index.js",
+  "keywords": [
+    "tabby-plugin"
+  ],
+  "author": "",
+  "license": "MIT",
+  "scripts": {
+    "build": "webpack --mode production",
+    "build:dev": "webpack --mode development",
+    "watch": "webpack --mode development --watch"
+  },
+  "peerDependencies": {
+    "tabby-core": "*",
+    "tabby-ssh": "*",
+    "tabby-terminal": "*"
+  },
+  "devDependencies": {
+    "@angular/common": "^19.2.20",
+    "@angular/compiler": "^19.2.20",
+    "@angular/compiler-cli": "^19.2.20",
+    "@angular/core": "^19.2.20",
+    "@angular/forms": "^19.2.20",
+    "@angular/platform-browser": "^19.2.20",
+    "@types/node": "^18.0.0",
+    "css-loader": "^6.0.0",
+    "rxjs": "^7.8.2",
+    "sass": "^1.57.0",
+    "sass-loader": "^13.0.0",
+    "style-loader": "^3.3.0",
+    "ts-loader": "^9.0.0",
+    "typescript": "~5.7.0",
+    "webpack": "^5.75.0",
+    "webpack-cli": "^5.0.0"
+  }
+}
