@@ -1,9 +1,9 @@
 {
   "compilerOptions": {
-    "target": "ES2022",
-    "module": "commonjs",
+    "target": "ES2020",
+    "module": "ES2020",
     "moduleResolution": "node",
-    "lib": ["es2022", "dom"],
+    "lib": ["es2020", "dom"],
     "declaration": true,
     "strict": true,
     "noImplicitAny": true,
@@ -12,6 +12,7 @@
     "alwaysStrict": true,
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
+    "useDefineForClassFields": false,
     "sourceMap": true,
     "outDir": "./dist",
     "baseUrl": ".",

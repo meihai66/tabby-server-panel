@@ -17,7 +17,7 @@ export interface SftpSession {
     stat (remotePath: string): Promise<{ size: number; mtime: Date; isDirectory: boolean }>
 }
 
-@Injectable({ providedIn: 'root' })
+@Injectable()
 export class FileManagerService implements OnDestroy {
     private sftpSession: SftpSession | null = null
     private syncWatchers: Map<string, SyncWatcher & { fsWatcher: fs.FSWatcher }> = new Map()

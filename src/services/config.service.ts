@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core'
 import { ConfigService } from 'tabby-core'
 import { ServerPanelConfig } from '../config/config.provider'
 
-@Injectable({ providedIn: 'root' })
+@Injectable()
 export class PanelConfigService {
     constructor (private config: ConfigService) {}
 

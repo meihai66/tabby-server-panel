@@ -9,7 +9,7 @@ export interface SshLikeSession {
     executeCommand?: (cmd: string) => Promise<string>
 }
 
-@Injectable({ providedIn: 'root' })
+@Injectable()
 export class ServerStatsService implements OnDestroy {
     private statsSubject = new Subject<ServerStats>()
     private stopSubject = new Subject<void>()
