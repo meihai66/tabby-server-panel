@@ -1,0 +1,81 @@
+:host {
+  display: flex;
+  flex-direction: column;
+  background: #1e1e1e;
+  color: #d4d4d4;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  font-size: 13px;
+  border-top: 1px solid #333;
+  user-select: none;
+}
+
+.panel-resize-handle {
+  height: 4px;
+  background: transparent;
+  cursor: ns-resize;
+  flex-shrink: 0;
+
+  &:hover {
+    background: #0078d4;
+  }
+}
+
+.panel-header {
+  display: flex;
+  align-items: center;
+  background: #252526;
+  padding: 0 8px;
+  height: 32px;
+  flex-shrink: 0;
+  border-bottom: 1px solid #333;
+  gap: 4px;
+
+  .tab-btn {
+    background: transparent;
+    border: none;
+    color: #888;
+    cursor: pointer;
+    padding: 4px 10px;
+    border-radius: 3px;
+    font-size: 12px;
+    transition: color 0.15s, background 0.15s;
+
+    &:hover {
+      color: #d4d4d4;
+      background: #2d2d2d;
+    }
+
+    &.active {
+      color: #ffffff;
+      background: #37373d;
+    }
+  }
+
+  .spacer {
+    flex: 1;
+  }
+
+  .panel-action-btn {
+    background: transparent;
+    border: none;
+    color: #888;
+    cursor: pointer;
+    padding: 2px 6px;
+    border-radius: 3px;
+    font-size: 14px;
+    line-height: 1;
+
+    &:hover {
+      color: #d4d4d4;
+      background: #2d2d2d;
+    }
+  }
+}
+
+.panel-body {
+  flex: 1;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+}

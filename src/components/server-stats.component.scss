@@ -1,0 +1,193 @@
+:host {
+  display: flex;
+  flex-direction: column;
+  padding: 8px 12px;
+  overflow-y: auto;
+  height: 100%;
+  gap: 8px;
+}
+
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 8px;
+}
+
+.stat-card {
+  background: #252526;
+  border-radius: 4px;
+  padding: 8px 10px;
+  border: 1px solid #333;
+
+  .stat-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 6px;
+
+    .stat-label {
+      color: #9cdcfe;
+      font-weight: 600;
+      font-size: 12px;
+    }
+
+    .stat-value {
+      font-size: 12px;
+      font-weight: bold;
+    }
+  }
+
+  .progress-bar-bg {
+    background: #3c3c3c;
+    border-radius: 3px;
+    height: 6px;
+    overflow: hidden;
+
+    .progress-bar-fill {
+      height: 100%;
+      border-radius: 3px;
+      transition: width 0.4s ease;
+
+      &.stat-green { background: #4caf50; }
+      &.stat-yellow { background: #ff9800; }
+      &.stat-red { background: #f44336; }
+    }
+  }
+
+  .stat-detail {
+    margin-top: 4px;
+    font-size: 11px;
+    color: #888;
+  }
+}
+
+.disk-table {
+  background: #252526;
+  border-radius: 4px;
+  border: 1px solid #333;
+  overflow: hidden;
+
+  .disk-table-header {
+    display: flex;
+    background: #2d2d2d;
+    padding: 4px 8px;
+    font-size: 11px;
+    color: #888;
+    border-bottom: 1px solid #333;
+  }
+
+  .disk-row {
+    display: flex;
+    align-items: center;
+    padding: 5px 8px;
+    border-bottom: 1px solid #2a2a2a;
+    gap: 8px;
+    font-size: 12px;
+
+    &:last-child {
+      border-bottom: none;
+    }
+
+    .disk-fs {
+      flex: 2;
+      color: #9cdcfe;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .disk-mount {
+      flex: 1;
+      color: #888;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .disk-usage {
+      flex: 3;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+
+      .progress-bar-bg {
+        flex: 1;
+        background: #3c3c3c;
+        border-radius: 3px;
+        height: 5px;
+        overflow: hidden;
+
+        .progress-bar-fill {
+          height: 100%;
+          border-radius: 3px;
+          &.stat-green { background: #4caf50; }
+          &.stat-yellow { background: #ff9800; }
+          &.stat-red { background: #f44336; }
+        }
+      }
+
+      .disk-pct {
+        font-size: 11px;
+        width: 32px;
+        text-align: right;
+      }
+    }
+
+    .disk-size {
+      flex: 1;
+      text-align: right;
+      color: #888;
+      font-size: 11px;
+    }
+  }
+}
+
+.network-section {
+  background: #252526;
+  border-radius: 4px;
+  border: 1px solid #333;
+  padding: 6px 10px;
+
+  .section-title {
+    color: #9cdcfe;
+    font-weight: 600;
+    font-size: 12px;
+    margin-bottom: 6px;
+  }
+
+  .net-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 12px;
+    padding: 2px 0;
+
+    .net-iface {
+      color: #888;
+    }
+
+    .net-speeds {
+      display: flex;
+      gap: 12px;
+
+      .net-rx { color: #4caf50; }
+      .net-tx { color: #f44336; }
+    }
+  }
+}
+
+.error-msg {
+  color: #f44336;
+  padding: 8px;
+  font-size: 12px;
+}
+
+.loading-msg {
+  color: #888;
+  padding: 8px;
+  font-size: 12px;
+}
+
+.stat-green { color: #4caf50; }
+.stat-yellow { color: #ff9800; }
+.stat-red { color: #f44336; }
