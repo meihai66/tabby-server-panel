@@ -44,11 +44,22 @@ declare module '@electron/remote' {
 // ---------------------------------------------------------------------------
 
 declare module '@angular/common' {
+    /**
+     * Intentionally empty build-time stub. CommonModule is a webpack external —
+     * Tabby's Angular 15 runtime provides the real implementation. The stub
+     * exists only so TypeScript can resolve `import { CommonModule } from
+     * '@angular/common'` without installing the package (which carries
+     * GHSA-58c5-g7wp-6w37).
+     */
     // eslint-disable-next-line @typescript-eslint/no-extraneous-class
     export class CommonModule {}
 }
 
 declare module '@angular/forms' {
+    /**
+     * Intentionally empty build-time stub. FormsModule is a webpack external —
+     * Tabby's Angular 15 runtime provides the real implementation.
+     */
     // eslint-disable-next-line @typescript-eslint/no-extraneous-class
     export class FormsModule {}
 }

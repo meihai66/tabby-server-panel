@@ -18,7 +18,7 @@
     "tabby-ssh": "*",
     "tabby-terminal": "*"
   },
-  "// ANGULAR_VERSION_NOTE": "@angular/compiler and @angular/compiler-cli are pinned to ^15.2.6 because @ngtools/webpack requires them as peer deps. @angular/core, @angular/common, @angular/forms are intentionally absent (type stubs in types/tabby.d.ts) to eliminate GHSA-58c5-g7wp-6w37, GHSA-prjf-86w9-mfqv. @angular/compiler remains required — @angular/compiler-cli ESM bundles import it at webpack run time (see README Security section). Its CVEs (GHSA-v4hv-rgfq-gp49, GHSA-jrmj-c5cx-3cw6) require SVG rendering of user-controlled content at browser runtime, which this plugin never does.",
+  "//": "@angular/compiler and @angular/compiler-cli are pinned to ^15.2.6 because @ngtools/webpack requires them as peer deps. @angular/core, @angular/common, @angular/forms are intentionally absent (type stubs in types/tabby.d.ts) to eliminate GHSA-58c5-g7wp-6w37, GHSA-prjf-86w9-mfqv. @angular/compiler remains required — @angular/compiler-cli ESM bundles import it at webpack run time (see README Security section). Its CVEs (GHSA-v4hv-rgfq-gp49, GHSA-jrmj-c5cx-3cw6) require SVG rendering of user-controlled content at browser runtime, which this plugin never does.",
   "devDependencies": {
     "@angular/compiler": "^15.2.6",
     "@angular/compiler-cli": "^15.2.6",
